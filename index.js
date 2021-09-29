@@ -1,6 +1,6 @@
 const TelegramApi = require('node-telegram-bot-api');
 
-// const { gameOptions, againOptions } = require('./options');
+const { gameOptions, againOptions } = require('./options');
 
 const token = '2002697389:AAFNu-V7F6JYSGyvt_OscJfgRtZRnDRoDxo';
 
@@ -8,34 +8,34 @@ const bot = new TelegramApi(token, { polling: true });
 
 const chats = {};
 
-const gameOptions = {
-	reply_markup: JSON.stringify({
-		inline_keyboard: [
-			[
-				{ text: '1', callback_data: '1' },
-				{ text: '2', callback_data: '2' },
-				{ text: '3', callback_data: '3' },
-			],
-			[
-				{ text: '4', callback_data: '4' },
-				{ text: '5', callback_data: '5' },
-				{ text: '6', callback_data: '6' },
-			],
-			[
-				{ text: '7', callback_data: '7' },
-				{ text: '8', callback_data: '8' },
-				{ text: '9', callback_data: '9' },
-			],
-			[{ text: '0', callback_data: '0' }],
-		],
-	}),
-};
+// const gameOptions = {
+// 	reply_markup: JSON.stringify({
+// 		inline_keyboard: [
+// 			[
+// 				{ text: '1', callback_data: '1' },
+// 				{ text: '2', callback_data: '2' },
+// 				{ text: '3', callback_data: '3' },
+// 			],
+// 			[
+// 				{ text: '4', callback_data: '4' },
+// 				{ text: '5', callback_data: '5' },
+// 				{ text: '6', callback_data: '6' },
+// 			],
+// 			[
+// 				{ text: '7', callback_data: '7' },
+// 				{ text: '8', callback_data: '8' },
+// 				{ text: '9', callback_data: '9' },
+// 			],
+// 			[{ text: '0', callback_data: '0' }],
+// 		],
+// 	}),
+// };
 
-const againOptions = {
-	reply_markup: JSON.stringify({
-		inline_keyboard: [[{ text: 'Yangi uyin', callback_data: '/again' }]],
-	}),
-};
+// const againOptions = {
+// 	reply_markup: JSON.stringify({
+// 		inline_keyboard: [[{ text: 'Yangi uyin', callback_data: '/again' }]],
+// 	}),
+// };
 
 const startgame = async chatId => {
 	await bot.sendMessage(
@@ -47,9 +47,9 @@ const startgame = async chatId => {
 	await bot.sendMessage(chatId, `toping!`, gameOptions);
 };
 
-const start = () => {
+const startbot = () => {
 	bot.setMyCommands([
-		{ command: '/start', description: 'Hush kelibsiz' },
+		{ command: '/start', description: 'telegram' },
 		{ command: '/info', description: 'Foydalanuvchining ismi' },
 		{ command: '/game', description: 'Raqamni toping' },
 	]);
@@ -58,10 +58,7 @@ const start = () => {
 		const text = msg.text;
 		const chatId = msg.chat.id;
 		if (text === '/start') {
-			// await bot.sendSticker(
-			// 	chatId,
-			// 	`https://telegramchannels.me/storage/stickers/meowblob/big_meowblob_55.png`
-			// );
+			// await bot.sendSticker(chatId, `https://t.me/c/1522406542/622`);
 			return bot.sendMessage(
 				chatId,
 				`Telegram botga hush kelibsiz ${msg.from.first_name}`
@@ -84,6 +81,7 @@ const start = () => {
 	});
 	bot.on('callback_query', async msg => {
 		const data = msg.data;
+		console.log(data);
 		const chatId = msg.message.chat.id;
 		if (data === '/again') {
 			return startgame(chatId);
@@ -104,4 +102,4 @@ const start = () => {
 	});
 	// bot.sendMessage(chatId, `siz ${date} raqamini bosdingiz`);
 };
-start();
+startbot();
